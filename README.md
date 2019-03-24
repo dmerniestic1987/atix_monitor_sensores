@@ -16,13 +16,8 @@ mvn install
 Se creará la carpeta target con el ejecutable
 
 ## Ejecución del proyecto con JAR
-Puede ejecutar el proyecto de dos formas:
+Puede pasar los argumentos S (Diferencia entre valores Máximos o Mínimos) y M (Valor medio) de la siguiente forma: 
 ```
 cd target
-java -jar Monitor-0.0.1-SNAPSHOT.jar
-```
-
-## Ejecución del proyecto con MAVEN
-```
-mvn spring-boot:run
+java -jar Monitor-0.0.1-SNAPSHOT.jar --S=875.50 --M=50
 ```
