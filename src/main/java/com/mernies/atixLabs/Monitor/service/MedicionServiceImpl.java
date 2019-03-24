@@ -23,10 +23,10 @@ public class MedicionServiceImpl implements MedicionService{
 	private static final BigDecimal DEFAULT_VALOR_MEDIO_MAX = new BigDecimal(400);
 	private static final BigDecimal DEFAULT_DIFERENCIA_MAX_MIN = new BigDecimal(1000);
 	
-	@Value("${S.alerta.diferencia.valor.maximo.minimo}")
+	@Value("${S}")
 	private String S;
 	
-	@Value("${M.alerta.valor.medio}")
+	@Value("${M}")
 	private String M;
 	
 	
@@ -74,6 +74,10 @@ public class MedicionServiceImpl implements MedicionService{
 		sb.append("Valor máximo: " + this.getValorMaximo());
 		logger.info(sb.toString());
 
+		sb = new StringBuffer();
+		sb.append("S (diferencia MAX MIN): " + S + "  ; ");
+		sb.append("M (Valor Medio): " + M + "  ; ");
+		logger.info(sb.toString());
 		checkErrorIndicadores();
 	}
 	
@@ -101,5 +105,10 @@ public class MedicionServiceImpl implements MedicionService{
 	@Override
 	public List<ErrorIndicador> getErroresIndicadores() {
 		return this.erroresIndicadores;
+	}
+
+	@Override
+	public void cleanMediciones() {
+		this.medicionDao.cleanMediciones();
 	}
 }

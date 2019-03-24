@@ -48,5 +48,9 @@ public interface MedicionService {
 	 */
 	public List<ErrorIndicador> getErroresIndicadores();
 	
+	/**
+	 * Borra las mediciones
+	 */
+	public void cleanMediciones();
 	
 }

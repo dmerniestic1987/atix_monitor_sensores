@@ -36,4 +36,9 @@ public interface MedicionDao {
 	 * @return valorMedio
 	 */
 	public BigDecimal getValorMedio();
+	
+	/**
+	 * Limpia las mediciones
+	 */
+	public void cleanMediciones();
 }

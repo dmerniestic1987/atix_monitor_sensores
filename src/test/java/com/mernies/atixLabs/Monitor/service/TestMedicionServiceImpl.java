@@ -29,6 +29,7 @@ public class TestMedicionServiceImpl {
 	
 	@Test
 	public void testCalcularIndicadores() {
+		medicionService.cleanMediciones();
 		BigDecimal valorMinimo = new BigDecimal(1);
 		BigDecimal valorMaximo = new BigDecimal(10);
 		
@@ -50,6 +51,7 @@ public class TestMedicionServiceImpl {
 		BigDecimal media = acumulador.divide(new BigDecimal(10), 5, BigDecimal.ROUND_FLOOR);
 		
 		medicionService.calcularIndicadores();
+		logger.info("MEDIA ESPERADA: " + media.toString());
 		assertTrue(media.compareTo(this.medicionService.getValorMedio()) == 0);
 		assertTrue(valorMinimo.equals(this.medicionService.getValorMinimo()));
 		assertTrue(valorMaximo.equals(this.medicionService.getValorMaximo()));
@@ -57,6 +59,7 @@ public class TestMedicionServiceImpl {
 	
 	@Test
 	public void testValorMedioSuperaMax() {
+		medicionService.cleanMediciones();
 		Sensor s1 = new Sensor("S1");
 		medicionService.saveMedicion(s1.medir(new BigDecimal(700)));
 		medicionService.saveMedicion(s1.medir(new BigDecimal(700)));
@@ -71,6 +74,7 @@ public class TestMedicionServiceImpl {
 	
 	@Test
 	public void testAmbosCasos() {
+		medicionService.cleanMediciones();
 		Sensor s1 = new Sensor("S1");
 		medicionService.saveMedicion(s1.medir(new BigDecimal(7000)));
 		medicionService.saveMedicion(s1.medir(new BigDecimal(-700)));

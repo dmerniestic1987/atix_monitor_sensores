@@ -87,4 +87,9 @@ public class MedicionDaoListImpl implements MedicionDao{
 	public List<Medicion> getMediciones() {
 		return this.mediciones;
 	}
+
+	@Override
+	public void cleanMediciones() {
+		this.mediciones.clear();		
+	}
 }

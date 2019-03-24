@@ -21,6 +21,11 @@ public class MonitorApplication implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		logger.info("************* MONITOR DE SENSORES *************");
 		logger.info("* Candidato: Diego Alejandro Mernies");
+        
+		for (String nombreArgumento : args.getOptionNames()){
+            logger.info(nombreArgumento + "=" + args.getOptionValues(nombreArgumento));
+            System.setProperty(nombreArgumento, args.getOptionValues(nombreArgumento).get(0));
+        }
 		
 	}
 
