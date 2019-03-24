@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.mernies.atixLabs.Monitor.bean.ErrorIndicador;
 import com.mernies.atixLabs.Monitor.bean.Sensor;
 import com.mernies.atixLabs.Monitor.controller.TestMedicionController;
+import com.mernies.atixLabs.Monitor.util.JsonUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,9 +49,37 @@ public class TestMedicionServiceImpl {
 		
 		BigDecimal media = acumulador.divide(new BigDecimal(10), 5, BigDecimal.ROUND_FLOOR);
 		
-		
+		medicionService.calcularIndicadores();
 		assertTrue(media.compareTo(this.medicionService.getValorMedio()) == 0);
 		assertTrue(valorMinimo.equals(this.medicionService.getValorMinimo()));
 		assertTrue(valorMaximo.equals(this.medicionService.getValorMaximo()));
+	}
+	
+	@Test
+	public void testValorMedioSuperaMax() {
+		Sensor s1 = new Sensor("S1");
+		medicionService.saveMedicion(s1.medir(new BigDecimal(700)));
+		medicionService.saveMedicion(s1.medir(new BigDecimal(700)));
+		medicionService.saveMedicion(s1.medir(new BigDecimal(700)));
+		
+		medicionService.calcularIndicadores();
+		
+		logger.info("Errores: " + medicionService.getErroresIndicadores().toString());
+		assertTrue(medicionService.getErroresIndicadores() != null && !medicionService.getErroresIndicadores().isEmpty());
+		assertTrue( ErrorIndicador.ERROR_VALOR_MEDIO.equals( medicionService.getErroresIndicadores().get(0).getCodigo()) );
+	}
+	
+	@Test
+	public void testAmbosCasos() {
+		Sensor s1 = new Sensor("S1");
+		medicionService.saveMedicion(s1.medir(new BigDecimal(7000)));
+		medicionService.saveMedicion(s1.medir(new BigDecimal(-700)));
+		
+		medicionService.calcularIndicadores();
+		
+		logger.info("Errores: " + medicionService.getErroresIndicadores().toString());
+		assertTrue(medicionService.getErroresIndicadores() != null && medicionService.getErroresIndicadores().size() >= 2);
+		assertTrue( ErrorIndicador.ERROR_VALOR_MEDIO.equals( medicionService.getErroresIndicadores().get(0).getCodigo()) );
+		assertTrue( ErrorIndicador.ERROR_DIFERENCIA_MIN_MAX.equals( medicionService.getErroresIndicadores().get(1).getCodigo()) );
 	}
 }

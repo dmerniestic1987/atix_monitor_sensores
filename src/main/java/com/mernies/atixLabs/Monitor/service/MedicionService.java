@@ -1,7 +1,9 @@
 package com.mernies.atixLabs.Monitor.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import com.mernies.atixLabs.Monitor.bean.ErrorIndicador;
 import com.mernies.atixLabs.Monitor.bean.Medicion;
 
 /**
@@ -39,6 +41,12 @@ public interface MedicionService {
 	 * @return valorMaximo
 	 */
 	public BigDecimal getValorMaximo();
+	
+	/**
+	 * Obtiene la lista de los errores de indicadores
+	 * @return listIndicadores
+	 */
+	public List<ErrorIndicador> getErroresIndicadores();
 	
 	
 }

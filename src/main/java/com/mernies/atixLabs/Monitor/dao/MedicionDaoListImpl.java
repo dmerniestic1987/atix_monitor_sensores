@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.mernies.atixLabs.Monitor.bean.Medicion;
+import com.mernies.atixLabs.Monitor.util.MathUtil;
 
 /**
  * Implementación con un List
@@ -18,8 +19,7 @@ import com.mernies.atixLabs.Monitor.bean.Medicion;
 @Repository("medicionDaoListImpl")
 public class MedicionDaoListImpl implements MedicionDao{
 	private static final Logger logger = LogManager.getLogger(MedicionDaoListImpl.class); 
-	private static final Integer ES_MENOR = -1; 
-	private static final Integer ES_MAYOR = 1; 
+
 	
 	private List<Medicion> mediciones;
 	private BigDecimal valorMedio; 
@@ -47,11 +47,11 @@ public class MedicionDaoListImpl implements MedicionDao{
 			for (Medicion medicion : this.mediciones) {
 				auxAcumulador = auxAcumulador.add(medicion.getMedicion());
 				
-				if ( medicion.getMedicion().compareTo(auxValorMinimo) == ES_MENOR ) {
+				if ( medicion.getMedicion().compareTo(auxValorMinimo) == MathUtil.ES_MENOR ) {
 					auxValorMinimo = medicion.getMedicion();
 				}
 				
-				if ( medicion.getMedicion().compareTo(auxValorMaximo) == ES_MAYOR ) {
+				if ( medicion.getMedicion().compareTo(auxValorMaximo) == MathUtil.ES_MAYOR ) {
 					auxValorMaximo = medicion.getMedicion();
 				}
 			}	
