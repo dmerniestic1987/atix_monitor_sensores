@@ -18,6 +18,11 @@ public interface MedicionService {
 	public void saveMedicion(Medicion medicion);
 	
 	/**
+	 * Calcula los indicadores
+	 */
+	public void calcularIndicadores();
+	
+	/**
 	 * Obtiene el valor medio
 	 * @return valorMedio
 	 */

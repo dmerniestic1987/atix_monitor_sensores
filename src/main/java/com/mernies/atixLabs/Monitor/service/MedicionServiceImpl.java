@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.mernies.atixLabs.Monitor.bean.Medicion;
@@ -21,16 +22,9 @@ public class MedicionServiceImpl implements MedicionService{
 	
 	@Override
 	public void saveMedicion(Medicion medicion) {
+		logger.debug("saveMedicion - Guardando mediciones");
 		this.medicionDao.saveMedicion(medicion);
-		this.medicionDao.calcularIndicadores();
-		
-		StringBuffer sb = new StringBuffer();
-		sb.append("Save Medicion - ");
-		sb.append("Valor medio: " + medicionDao.getValorMedio() + " - ");
-		sb.append("Valor mínimo: " + medicionDao.getValorMinimo() + " - ");
-		sb.append("Valor máximo: " + medicionDao.getValorMaximo());
-		logger.info(sb.toString());
-		
+		logger.debug("saveMedicion - Mediciones guardadas");
 	}
 
 	@Override
@@ -46,6 +40,18 @@ public class MedicionServiceImpl implements MedicionService{
 	@Override
 	public BigDecimal getValorMaximo() {
 		return this.medicionDao.getValorMaximo();
+	}
+
+	@Scheduled(fixedRate = 30000)
+	@Override
+	public void calcularIndicadores() {
+		logger.info("Calculando indicadores de mediciones");
+		this.medicionDao.calcularIndicadores();
+		StringBuffer sb = new StringBuffer();
+		sb.append("Valor medio: " + this.getValorMedio() + "  ; ");
+		sb.append("Valor mínimo: " + this.getValorMinimo() + "  ; ");
+		sb.append("Valor máximo: " + this.getValorMaximo());
+		logger.info(sb.toString());
 	}
 
 }
