@@ -21,3 +21,6 @@ Puede pasar los argumentos S (Diferencia entre valores Máximos o Mínimos) y M 
 cd target
 java -jar Monitor-0.0.1-SNAPSHOT.jar --S=875.50 --M=50
 ```
+
+## Ingreso a la aplicación
+Puede ingresar a la aplicación ingresando a [http://localhost:8080](http://localhost:8080)
