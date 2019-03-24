@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Monitor de Sensores - Status de Indicadores</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <style>
+		body {
+		  background-color: linen;
+		}
+		
+		h1 {
+		  color: maroon;
+		  margin-left: 40px;
+		} 
+		
+		table {
+			border:1px solid black;
+			width: 90%;
+		}
+		
+		th {
+		  height: 70px;
+		  border:1px solid black;
+		  text-align:center;
+		}
+		
+		td {
+		  height: 50px;
+		  border:1px solid black;
+		  text-align:center;
+		}
+	</style>
+</head>
+<body>
+	<h1>Monitor de Sensores - Status de Indicadores</h1>
+	<hr />
+	
+	<table>
+	    <thead>
+	        <tr>
+	            <th> Fecha Hora </th>
+	            <th> Código </th>
+	            <th> Descripción </th>
+	            <th> Detalle </th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    <tr th:if="${erroresIndicadores.empty}">
+	            <td colspan="4"> Mediciones OK!!! </td>
+	        </tr>
+	        <tr th:each="error : ${erroresIndicadores}">
+	            <td><span th:text="${error.horaError}"> Title </span></td>
+	            <td><span th:text="${error.codigo}"> Author </span></td>
+	            <td><span th:text="${error.descripcion}"> Author </span></td>
+	            <td><span th:text="${error.detalle}"> Author </span></td>
+	        </tr>
+	    </tbody>
+	</table>
+</body>
+</html>

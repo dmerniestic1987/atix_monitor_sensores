@@ -5,9 +5,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mernies.atixLabs.Monitor.bean.Medicion;
+import com.mernies.atixLabs.Monitor.bean.MedicionStatus;
 import com.mernies.atixLabs.Monitor.service.MedicionService;
 import com.mernies.atixLabs.Monitor.util.JsonUtil;
 
@@ -25,9 +30,23 @@ public class MedicionController {
 	@Qualifier("medicionServiceImpl")
 	private MedicionService medicionService;
 	
-	@PostMapping("/medicion")
-	public void saveMedicion(Medicion medicion) {
+	@PostMapping(path = "/medicion", consumes = "application/json", produces = "application/json")
+	public @ResponseBody MedicionStatus saveMedicion(@RequestBody Medicion medicion) {
 		logger.info("JSON INPUT: " + JsonUtil.toJsonString(medicion));
-		this.medicionService.saveMedicion(medicion);
+		try {
+			this.medicionService.saveMedicion(medicion);
+			return new MedicionStatus("OK", "OK");
+		} catch (Exception e) {
+			logger.error(e);
+			return new MedicionStatus("ERROR", e.getMessage());
+		}
+		
 	}
+	
+    @GetMapping("/status")
+    public String greeting(Model model) {
+        model.addAttribute("erroresIndicadores", this.medicionService.getErroresIndicadores());
+        return "status";
+    }
+
 }
